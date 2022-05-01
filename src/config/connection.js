@@ -6,7 +6,7 @@ class Connection {
     }
 
     dataBaseConnectionMongoDb(){
-        this.mongoDbConnection = mongoose.connect("mongodb://localhost/nodejs", {
+        this.mongoDbConnection = mongoose.connect("mongodb://localhost/criptos", {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             // useFindAndModify: false,

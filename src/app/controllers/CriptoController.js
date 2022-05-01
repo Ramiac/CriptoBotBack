@@ -3,7 +3,7 @@ const yup = require('yup');
 const axios = require('axios');
 
 class  CritpoController {
-    async store (req, res) {
+    async create (req, res) {
 
         let schema = yup.object().shape({
             name: yup.string().required(),
@@ -18,7 +18,11 @@ class  CritpoController {
             })
         }
 
-        let criptoExiste = await Cripto.findOne({ name: res.req.body.name });
+        let criptoExiste = await Cripto.findOne(
+            { 
+                name: res.req.body.name, 
+                compareCurrency: req.body.compareCurrency 
+            });
         if (criptoExiste) {
             return res.status(400).json({
                 error: true, 
@@ -56,7 +60,12 @@ class  CritpoController {
             })
         }
 
-        let criptoExiste = await Cripto.findOne({ name: res.req.body.name });
+        let criptoExiste = await Cripto.findOne(
+            { 
+                name: res.req.body.name, 
+                compareCurrency: req.body.compareCurrency 
+            });
+            
         if (!criptoExiste) {
             return res.status(400).json({
                 error: true, 
@@ -80,6 +89,22 @@ class  CritpoController {
             })
         });
 
+    }
+
+    async read (req, res){
+        let criptos = await Cripto.find();
+        if (criptos.length >0){
+            return res.status(200).json({
+                error: false,
+                message: "lista carregada com sucesso",
+                criptos,
+            })
+        }else {
+            return res.status(400).json({
+                error: true, 
+                message: "Nenhuma cripto na lista"
+            })
+        }
     }
 
     async fetch (req, res) {

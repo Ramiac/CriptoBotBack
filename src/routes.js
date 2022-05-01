@@ -14,8 +14,11 @@ const routes = new Router();
 
 // routes.post("/loginUser", LoginController.index);
 
-routes.post("/criptoAdd", CriptoController.store);
-routes.post("/criptoDelete", CriptoController.delete);
-routes.get("/criptoFetch", CriptoController.fetch); // use '?symbol="string"'
+
+// ###### CRIPTO endpoints ######
+routes.post("/criptos/criptoAdd", CriptoController.create);
+routes.post("/criptos/criptoDelete", CriptoController.delete);
+routes.get("/criptos/criptoList", CriptoController.read);
+routes.get("/criptos/criptoFetch", CriptoController.fetch); // use '?symbol="string"'
 
 module.exports = routes;
