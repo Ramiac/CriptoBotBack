@@ -109,9 +109,10 @@ class  CritpoController {
 
     async fetch (req, res) {
         let symbol = req.query.symbol;
+        let convert = req.query.convert
 
         try {
-            var responseCMC = await axios.get(`https://pro-api.coinmarketcap.com/v2/tools/price-conversion?amount=1&symbol=${symbol}&convert=USD`, {
+            var responseCMC = await axios.get(`https://pro-api.coinmarketcap.com/v2/tools/price-conversion?amount=1&symbol=${symbol}&convert=${convert}`, {
               headers: {
                 'X-CMC_PRO_API_KEY': '1b3e397a-5047-4d7e-a9b8-754024b0f8b9',
               }
@@ -123,12 +124,26 @@ class  CritpoController {
             })
           }
           if (responseCMC) {
-            
-            var quotes = responseCMC.data.data[0]
+              var quote;
+              switch(convert){
+                case "BRL":
+                    quote = responseCMC.data.data[0].quote.BRL;
+                    break;
+                case "USD":
+                    quote = responseCMC.data.data[0].quote.USD;
+                    break;
+                case "EUR":
+                    quote = responseCMC.data.data[0].quote.EUR;
+                    break;
+                case "BTC":
+                    quote = responseCMC.data.data[0].quote.BTC;
+                    break;
+              }
+
             return res.status(200).json({
                 error: false,
                 message: "OK",
-                quotes,
+                quote
             })
 
           }
